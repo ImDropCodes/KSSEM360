@@ -34,7 +34,7 @@ public class LogInCheckActivity extends AppCompatActivity {
 
             String uid = user.getUid();
             String name = user.getDisplayName();
-            startActivity(new Intent(LogInCheckActivity.this,HomeActivity.class));
+            startActivity(new Intent(LogInCheckActivity.this,MainActivity.class));
             finish();
             Toast.makeText(LogInCheckActivity.this,"WelCome "+name, Toast.LENGTH_SHORT).show();
         }else {
