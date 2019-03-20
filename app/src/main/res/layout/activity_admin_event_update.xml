@@ -21,6 +21,16 @@
             android:textSize="16sp"
             android:textStyle="bold"/>
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="150dp"
+            android:layout_margin="2dp"
+            android:layout_gravity="center"
+            android:src="@drawable/common_google_signin_btn_icon_disabled"
+            android:layout_height="150dp"
+            android:id="@+id/poster"
+            app:civ_border_width="1dp"
+            app:civ_border_color="@color/colorPrimary" />
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -69,7 +79,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
+                android:inputType="text"
                 android:id="@+id/event_venue"
                 android:hint="Venue" />
         </com.google.android.material.textfield.TextInputLayout>
