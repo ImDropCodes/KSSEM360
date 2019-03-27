@@ -50,8 +50,8 @@ public class AdminEventUpdate extends AppCompatActivity implements DatePickerDia
     int day, month, year, hour, minute;
     int dayFinal, monthFinal, yearFinal;
     private String format = "";
-    private String date_time;
-    private TextInputEditText mEventName, mEventType, mReqFee, mVenue, mNumParticipate, mCordinatName, mCordinatNumber, mDescription;
+    private String date_time, order;
+    private TextInputEditText mEventName, mEventType, mReqFee, mVenue, mDuration, mNumParticipate, mCordinatNameStudent, mCordinatNumber, mDescription, mCordinatNameTeacher, mDepartment;
     private CircleImageView mPoaterImage;
 
     private FirebaseDatabase mDatabase;
@@ -78,11 +78,14 @@ public class AdminEventUpdate extends AppCompatActivity implements DatePickerDia
         mReqFee = findViewById(R.id.event_reg_fee);
         mVenue = findViewById(R.id.event_venue);
         mNumParticipate = findViewById(R.id.event_no_participate);
-        mCordinatName = findViewById(R.id.event_co_ord_name);
+        mCordinatNameStudent = findViewById(R.id.event_co_ord_name);
+        mCordinatNameTeacher = findViewById(R.id.event_co_ord_name_teacher);
+        mDepartment = findViewById(R.id.event_department);
         mCordinatNumber = findViewById(R.id.event_co_ord_number);
         mDescription = findViewById(R.id.event_description);
         mPostEvent = findViewById(R.id.event_post);
         mPoaterImage = findViewById(R.id.poster);
+        mDuration = findViewById(R.id.event_duration);
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
@@ -130,11 +133,14 @@ public class AdminEventUpdate extends AppCompatActivity implements DatePickerDia
         String event_reg_fee = mReqFee.getEditableText().toString();
         String event_venue = mVenue.getEditableText().toString();
         String event_num_parti = mNumParticipate.getEditableText().toString();
-        String event_co_name = mCordinatName.getEditableText().toString();
+        String event_co_nameStudent = mCordinatNameStudent.getEditableText().toString();
+        String event_co_nameTeacher = mCordinatNameTeacher.getEditableText().toString();
+        String event_department = mDepartment.getEditableText().toString();
         String event_co_number = mCordinatNumber.getEditableText().toString();
         String event_description = mDescription.getEditableText().toString();
+        String event_duration = mDuration.getEditableText().toString();
 
-        if (!TextUtils.isEmpty(event_name) && !TextUtils.isEmpty(event_type) && !TextUtils.isEmpty(event_reg_fee) && !TextUtils.isEmpty(event_venue) && !TextUtils.isEmpty(event_num_parti) && !TextUtils.isEmpty(event_co_name) && !TextUtils.isEmpty(event_co_number) && !TextUtils.isEmpty(event_description)) {
+        if (!TextUtils.isEmpty(event_name)&& !TextUtils.isEmpty(image_url) && !TextUtils.isEmpty(event_type) && !TextUtils.isEmpty(event_reg_fee) && !TextUtils.isEmpty(event_venue) && !TextUtils.isEmpty(event_num_parti) && !TextUtils.isEmpty(event_co_nameStudent) && !TextUtils.isEmpty(event_co_nameTeacher) && !TextUtils.isEmpty(event_department) && !TextUtils.isEmpty(event_co_number) && !TextUtils.isEmpty(event_description) && !TextUtils.isEmpty(event_duration)) {
 
             Map map = new HashMap();
             map.put("name", event_name);
@@ -142,11 +148,15 @@ public class AdminEventUpdate extends AppCompatActivity implements DatePickerDia
             map.put("fee", event_reg_fee);
             map.put("venue", event_venue);
             map.put("num_part", event_num_parti);
-            map.put("co_ord_name", event_co_name);
+            map.put("teacher_co", event_co_nameTeacher);
+            map.put("student_co", event_co_nameStudent);
+            map.put("department", event_department);
             map.put("co_ord_number", event_co_number);
             map.put("desc", event_description);
             map.put("date", date_time);
             map.put("admin", UID);
+            map.put("image",image_url);
+            map.put("order", order);
 
             mRef.updateChildren(map).addOnCompleteListener(new OnCompleteListener() {
                 @Override
@@ -188,7 +198,7 @@ public class AdminEventUpdate extends AppCompatActivity implements DatePickerDia
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 final byte[] image_byte = baos.toByteArray();
 
-                mStorageRef = mStorage.getReference().child("fest").child("poster").child(random()+".jpeg");
+                mStorageRef = mStorage.getReference().child("fest").child("event").child(random() + ".jpeg");
 
                 UploadTask uploadTask = mStorageRef.putBytes(image_byte);
                 uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
@@ -201,7 +211,6 @@ public class AdminEventUpdate extends AppCompatActivity implements DatePickerDia
                                 @Override
                                 public void onSuccess(Uri download_uri) {
                                     image_url = download_uri.toString();
-                                    mRef.child("image").setValue(image_url);
                                     mPoaterImage.setImageURI(uri);
                                     imageProgress.dismiss();
                                     Toast.makeText(AdminEventUpdate.this, "Image uploaded successfully", Toast.LENGTH_LONG).show();
@@ -254,17 +263,18 @@ public class AdminEventUpdate extends AppCompatActivity implements DatePickerDia
         StringBuilder time = new StringBuilder().append(hourOfDay).append(":").append(minute).append(" ").append(format);
 
         date_time = dayFinal + "/" + monthFinal + "/" + yearFinal + " at " + time;
+        order = "" + dayFinal + monthFinal + yearFinal + time;
         mDateText.setText(date_time);
 
     }
 
-    public static String random(){
+    public static String random() {
         Random generator = new Random();
         StringBuilder stringBuilder = new StringBuilder();
         int randomLength = generator.nextInt(10);
         char tempChar;
-        for(int i = 0; i < randomLength; i++){
-            tempChar = (char) (generator.nextInt(96)+32);
+        for (int i = 0; i < randomLength; i++) {
+            tempChar = (char) (generator.nextInt(96) + 32);
             stringBuilder.append(tempChar);
         }
         return stringBuilder.toString();

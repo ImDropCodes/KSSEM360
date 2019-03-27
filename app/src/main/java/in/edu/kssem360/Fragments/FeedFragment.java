@@ -1,6 +1,9 @@
 package in.edu.kssem360.Fragments;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +13,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -25,19 +30,17 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import in.edu.kssem360.Adapter.EventAdapter;
-import in.edu.kssem360.Admin.AdminEventUpdate;
-import in.edu.kssem360.Admin.EventDetailActivity;
+import in.edu.kssem360.Adapter.FeedAdapter;
+import in.edu.kssem360.Admin.AdminFeedUpdate;
 import in.edu.kssem360.Admin.FeedDeatailActivity;
-import in.edu.kssem360.MainActivity;
-import in.edu.kssem360.Model.EventModelClass;
+import in.edu.kssem360.Model.FeedModelClass;
 import in.edu.kssem360.R;
 
-public class FestFragment extends Fragment {
+public class FeedFragment extends Fragment {
 
-    private EventAdapter adapter;
-    private List<EventModelClass> modelClasses;
     private RecyclerView recyclerView;
+    private FeedAdapter adapter;
+    private List<FeedModelClass> modelClasses;
     private DatabaseReference mReference;
     private FloatingActionButton fab;
     private FirebaseAuth mAuth;
@@ -47,19 +50,26 @@ public class FestFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_fest, null);
+        return inflater.inflate(R.layout.fragment_feed, null);
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        fab = view.findViewById(R.id.fab_fest);
+        recyclerView = view.findViewById(R.id.recycler_view_feed);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        modelClasses = new ArrayList<>();
+
+        fab = view.findViewById(R.id.fab_feed);
         fab.hide();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getContext(), EventDetailActivity.class));
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), AdminFeedUpdate.class));
             }
         });
 
@@ -67,14 +77,7 @@ public class FestFragment extends Fragment {
         user = mAuth.getCurrentUser();
         uid = user.getUid();
 
-        recyclerView = view.findViewById(R.id.recycler_view_fest);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
         mReference = FirebaseDatabase.getInstance().getReference();
-
-        modelClasses = new ArrayList<>();
-
         mReference.child("users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -91,7 +94,8 @@ public class FestFragment extends Fragment {
             }
         });
 
-        mReference.child("event").orderByChild("order").addValueEventListener(new ValueEventListener() {
+
+        mReference.child("feed").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -99,15 +103,15 @@ public class FestFragment extends Fragment {
 
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
-                        EventModelClass model = snapshot.getValue(EventModelClass.class);
+                        FeedModelClass model = snapshot.getValue(FeedModelClass.class);
                         modelClasses.add(model);
                     }
-                    adapter = new EventAdapter(getContext(), modelClasses);
+                    adapter = new FeedAdapter(modelClasses);
                     adapter.notifyDataSetChanged();
                     recyclerView.setAdapter(adapter);
 
                 } else {
-                    Toast.makeText(getContext(), "No event Found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "No feed Found", Toast.LENGTH_SHORT).show();
                 }
             }
 

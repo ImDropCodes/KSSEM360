@@ -5,19 +5,14 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_fest"
+            android:id="@+id/nav_feed"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Fest 2K19" />
+            android:title="Fest Feed" />
 
         <item
-            android:id="@+id/nav_about_us"
-            android:icon="@drawable/ic_menu_send"
-            android:title="About Us" />
-        <item
-            android:id="@+id/nav_share"
+            android:id="@+id/nav_fest"
             android:icon="@drawable/ic_menu_share"
-            android:title="Share" />
+            android:title="Fest events" />
 
     </group>
-
 </menu>
