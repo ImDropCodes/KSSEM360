@@ -90,7 +90,7 @@ public class AdminEventUpdate extends AppCompatActivity implements DatePickerDia
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
         mStorage = FirebaseStorage.getInstance();
-        mRef = mDatabase.getReference().child("event").push();
+        mRef = mDatabase.getReference().child("event");
         mUser = mAuth.getCurrentUser();
         UID = mUser.getUid();
 
@@ -158,7 +158,7 @@ public class AdminEventUpdate extends AppCompatActivity implements DatePickerDia
             map.put("image",image_url);
             map.put("order", order);
 
-            mRef.updateChildren(map).addOnCompleteListener(new OnCompleteListener() {
+            mRef.child(event_name).updateChildren(map).addOnCompleteListener(new OnCompleteListener() {
                 @Override
                 public void onComplete(@NonNull Task task) {
                     if (task.isSuccessful()) {

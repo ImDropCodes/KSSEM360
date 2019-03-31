@@ -6,13 +6,18 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_feed"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Fest Feed" />
+            android:icon="@drawable/ic_outline_home_24px"
+            android:title="Feed" />
 
         <item
             android:id="@+id/nav_fest"
-            android:icon="@drawable/ic_menu_share"
-            android:title="Fest events" />
+            android:icon="@drawable/ic_outline_event"
+            android:title="Events" />
+
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_outline_account"
+            android:title="About" />
 
     </group>
 </menu>

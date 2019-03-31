@@ -27,9 +27,6 @@ import java.util.List;
 
 import in.edu.kssem360.Adapter.EventAdapter;
 import in.edu.kssem360.Admin.AdminEventUpdate;
-import in.edu.kssem360.Admin.EventDetailActivity;
-import in.edu.kssem360.Admin.FeedDeatailActivity;
-import in.edu.kssem360.MainActivity;
 import in.edu.kssem360.Model.EventModelClass;
 import in.edu.kssem360.R;
 
@@ -59,7 +56,7 @@ public class FestFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getContext(), EventDetailActivity.class));
+                startActivity(new Intent(getContext(), AdminEventUpdate.class));
             }
         });
 

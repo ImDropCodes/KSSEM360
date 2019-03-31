@@ -5,18 +5,25 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
-
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import in.edu.kssem360.Admin.AdminEventUpdate;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
+
+import java.util.List;
+
 import in.edu.kssem360.Admin.EventDetailActivity;
 import in.edu.kssem360.Model.EventModelClass;
 import in.edu.kssem360.R;
@@ -25,6 +32,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
     private Context context;
     private List<EventModelClass> modelClasses;
+    private DatabaseReference mRef;
+    private FirebaseUser mUser;
+    private FirebaseAuth mAuth;
 
     public EventAdapter(Context context, List<EventModelClass> modelClasses) {
         this.context = context;
@@ -42,33 +52,74 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
         final EventModelClass eventModelClass = modelClasses.get(position);
-        holder.mName.setText(eventModelClass.getName());
-        holder.mDate.setText("Date: "+eventModelClass.getDate());
-        holder.mDepartment.setText("Department: "+eventModelClass.getDepartment());
-        holder.mVenue.setText("Venue: "+eventModelClass.getVenue());
+        mRef = FirebaseDatabase.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
 
-        Picasso.get().load(eventModelClass.getImage()).fit() .into(holder.mImage);
+        holder.mName.setText(eventModelClass.getName());
+        holder.mDate.setText("Date: " + eventModelClass.getDate());
+        holder.mDepartment.setText("Department: " + eventModelClass.getDepartment());
+        holder.mVenue.setText("Venue: " + eventModelClass.getVenue());
+
+        Picasso.get().load(eventModelClass.getImage()).fit().into(holder.mImage);
 
         holder.mCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, EventDetailActivity.class);
-                intent.putExtra("name",eventModelClass.getName());
-                intent.putExtra("type",eventModelClass.getType());
-                intent.putExtra("fee",eventModelClass.getFee());
-                intent.putExtra("venue",eventModelClass.getVenue());
-                intent.putExtra("num_part",eventModelClass.getNum_part());
-                intent.putExtra("teacher_co",eventModelClass.getTeacher_co());
-                intent.putExtra("student_co",eventModelClass.getStudent_co());
-                intent.putExtra("department",eventModelClass.getDepartment());
-                intent.putExtra("co_ord_number",eventModelClass.getCo_ord_number());
-                intent.putExtra("desc",eventModelClass.getDesc());
-                intent.putExtra("date",eventModelClass.getDate());
-                intent.putExtra("admin",eventModelClass.getAdmin());
-                intent.putExtra("image",eventModelClass.getImage());
+                intent.putExtra("name", eventModelClass.getName());
+                intent.putExtra("type", eventModelClass.getType());
+                intent.putExtra("fee", eventModelClass.getFee());
+                intent.putExtra("venue", eventModelClass.getVenue());
+                intent.putExtra("num_part", eventModelClass.getNum_part());
+                intent.putExtra("teacher_co", eventModelClass.getTeacher_co());
+                intent.putExtra("student_co", eventModelClass.getStudent_co());
+                intent.putExtra("department", eventModelClass.getDepartment());
+                intent.putExtra("co_ord_number", eventModelClass.getCo_ord_number());
+                intent.putExtra("desc", eventModelClass.getDesc());
+                intent.putExtra("date", eventModelClass.getDate());
+                intent.putExtra("admin", eventModelClass.getAdmin());
+                intent.putExtra("image", eventModelClass.getImage());
                 context.startActivity(intent);
             }
         });
+
+        String current_user_id = mUser.getUid();
+        mRef.child("users").child(current_user_id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChild("status")) {
+
+                    holder.mDelete.setVisibility(View.VISIBLE);
+                } else {
+
+                    holder.mDelete.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        holder.mDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mRef.child("event").child(eventModelClass.getName()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        mRef.child("event").child(eventModelClass.getName()).setValue(null);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        });
+
 
     }
 
@@ -80,8 +131,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView mImage;
-        private TextView mName, mDate, mDepartment,mVenue;
+        private TextView mName, mDate, mDepartment, mVenue;
         private CardView mCard;
+        private Button mDelete;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -92,6 +144,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             mVenue = itemView.findViewById(R.id.event_list_venue);
             mDepartment = itemView.findViewById(R.id.event_list_department);
             mCard = itemView.findViewById(R.id.event_card_view);
+            mDelete = itemView.findViewById(R.id.event_delete_btn);
 
         }
     }

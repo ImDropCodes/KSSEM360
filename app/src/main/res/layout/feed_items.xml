@@ -1,35 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_feed_post"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="2dp"
-    android:id="@+id/feed_card_view"
-    android:elevation="5dp"
-    android:orientation="vertical">
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="8dp"
+    android:padding="20dp">
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:id="@+id/feed_item_image"
-            android:src="@color/colorPrimary" />
-
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:id="@+id/feed_item_text"
-            android:text="@string/app_name"
-            android:singleLine="true"
-            android:textSize="18dp"
-            app:layout_anchorGravity="bottom"
-            app:layout_anchor="@id/feed_item_image" />
+            android:gravity="start"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:id="@+id/feed_profile"
+                android:src="@color/colorPrimary"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_centerVertical="true"
+                android:gravity="start|center"
+                android:layout_toRightOf="@id/feed_profile"
+                android:id="@+id/feed_user_name"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+            <Button
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:layout_margin="16dp"
+                android:id="@+id/feed_delete_btn"
+                android:visibility="gone"
+                android:background="@drawable/ic_outline_delete"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"/>
+
+        </RelativeLayout>
+
+
+        <ImageView
+            android:id="@+id/feed_image"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:padding="2dp"
+            app:srcCompat="@color/colorGray" />
+
+        <TextView
+            android:id="@+id/feed_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:layout_margin="16dp"
+            android:text="Lorem ipsum dolor sit amet, soluta regione urbanitas vis in, qui elit populo ut. " />
 
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>

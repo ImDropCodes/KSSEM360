@@ -31,6 +31,9 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -43,7 +46,6 @@ public class AdminFeedUpdate extends AppCompatActivity {
     private TextInputEditText mEditText;
     private Button mPost;
     private static int REQUEST_CODE = 100;
-
     private FirebaseDatabase mDatabase;
     private DatabaseReference mRef;
     private FirebaseAuth mAuth;
@@ -52,7 +54,8 @@ public class AdminFeedUpdate extends AppCompatActivity {
     public StorageReference mStorageRef;
     private String UID;
     public Uri uri;
-    public String image_url;
+    public String image_url,name;
+    public Uri photo_url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +70,11 @@ public class AdminFeedUpdate extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
         mStorage = FirebaseStorage.getInstance();
-        mRef = mDatabase.getReference().child("feed").push();
+        mRef = mDatabase.getReference().child("feed");
         mUser = mAuth.getCurrentUser();
         UID = mUser.getUid();
+        name = mUser.getDisplayName();
+        photo_url = mUser.getPhotoUrl();
 
         mImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,14 +91,14 @@ public class AdminFeedUpdate extends AppCompatActivity {
             public void onClick(View v) {
                 String caption = mEditText.getEditableText().toString();
 
-                if (!TextUtils.isEmpty(caption) && !TextUtils.isEmpty(image_url)) {
+                if (!TextUtils.isEmpty(caption) && !TextUtils.isEmpty(image_url) && !TextUtils.isEmpty(UID)) {
 
                     Map map = new HashMap();
                     map.put("caption", caption);
-                    map.put("time", ServerValue.TIMESTAMP);
                     map.put("image",image_url);
+                    map.put("uid",UID);
 
-                    mRef.updateChildren(map).addOnCompleteListener(new OnCompleteListener() {
+                    mRef.child(caption).updateChildren(map).addOnCompleteListener(new OnCompleteListener() {
                         @Override
                         public void onComplete(@NonNull Task task) {
                             if (task.isSuccessful()) {
@@ -143,7 +148,6 @@ public class AdminFeedUpdate extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri download_uri) {
                                     image_url = download_uri.toString();
-
                                     mImage.setImageURI(uri);
                                     imageProgress.dismiss();
                                     Toast.makeText(AdminFeedUpdate.this, "Image uploaded successfully", Toast.LENGTH_LONG).show();

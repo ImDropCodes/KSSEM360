@@ -1,6 +1,7 @@
 package in.edu.kssem360;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -90,11 +91,13 @@ public class LogIn extends AppCompatActivity {
                     FirebaseUser user = mAuth.getCurrentUser();
                     String uid = user.getUid();
                     String name = user.getDisplayName();
+                    Uri image = user.getPhotoUrl();
 
                     mReference = mDatabase.getReference().child("users").child(uid);
 
                     Map maps = new HashMap();
                     maps.put("name", name);
+                    maps.put("image",image.toString());
 
 
                     mReference.updateChildren(maps).addOnCompleteListener(new OnCompleteListener() {

@@ -7,14 +7,11 @@
     android:layout_height="match_parent"
     tools:openDrawer="start">
 
-    <include layout="@layout/tool_bar"
-        android:id="@+id/main_tool_bar"/>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/main_frame_layout"
-        android:layout_below="@id/main_tool_bar"
         android:layout_above="@id/nav_view"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -27,7 +24,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/colorPrimary"
+        app:itemIconTint="@color/colorWhite"
+        app:itemTextColor="@color/colorWhite"
+        app:itemRippleColor="@color/colorPrimary"
         app:menu="@menu/activity_main_drawer" />
 
 </RelativeLayout>
