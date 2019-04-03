@@ -35,10 +35,9 @@ public class AboutFragment extends Fragment {
     private AboutDeveloperAdapter adapter;
     private List<AboutDeveloperModelClass> modelClasses;
 
-    private String names[] = {"Arvind","Mohammed yunus","Raventh","Vishal M","Sagar DB (DropCodes)","Shashidhar N","Sushmitha mukund kirsur"};
-    private String department[] = {"ECE","ECE","CSE","CSE","EEE","CSE","CSE"};
-    private String year[] = {"3rd year","4th year","3rd year","4th year","3rd year","3rd year","4th year",};
-    private int image[] = {R.drawable.default_image,R.drawable.default_image,R.drawable.default_image,R.drawable.default_image,R.drawable.dropcodes,R.drawable.default_image,R.drawable.default_image};
+    private String names[] = {"Sagar DB (DropCodes)","Revanth Chowdary M","Vishal M","Arvind","Mohammed Yunus","Shashidhara N","Charan TN"};
+    private String department[] = {"EEE","CSE","CSE","ECE","ECE","CSE","EEE"};
+    private String year[] = {"3rd year","3rd year","4th year","3rd year","4th year","3rd year","3rd year",};
 
     @Nullable
     @Override
@@ -60,7 +59,7 @@ public class AboutFragment extends Fragment {
         modelClasses = new ArrayList<>();
 
         for (int i = 0; i < names.length; i++) {
-            AboutDeveloperModelClass settingModel = new AboutDeveloperModelClass(names[i], department[i],year[i],image[i]);
+            AboutDeveloperModelClass settingModel = new AboutDeveloperModelClass(names[i], department[i],year[i]);
             modelClasses.add(settingModel);
 
             adapter = new AboutDeveloperAdapter(modelClasses, getContext());

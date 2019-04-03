@@ -188,7 +188,7 @@ public class AdminEventUpdate extends AppCompatActivity implements DatePickerDia
             final ProgressDialog imageProgress = new ProgressDialog(AdminEventUpdate.this);
             imageProgress.setMessage("Please wait...");
             imageProgress.setTitle("Uploading Image");
-            imageProgress.setIcon(R.mipmap.ic_launcher);
+            imageProgress.setIcon(R.mipmap.ic_launcher_logo);
             imageProgress.setCanceledOnTouchOutside(false);
             imageProgress.show();
             uri = data.getData();

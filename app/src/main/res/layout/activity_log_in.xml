@@ -9,11 +9,10 @@
     tools:context=".LogIn">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
         android:id="@+id/sign_img"
-        android:layout_margin="8dp"
-        android:src="@drawable/ic_outline_account"/>
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@mipmap/ic_launcher_logo" />
 
     <TextView
         android:layout_width="match_parent"
@@ -22,8 +21,9 @@
         android:id="@+id/sig_tv"
         android:layout_below="@id/sign_img"
         android:textColor="@color/colorWhite"
-        android:textSize="24sp"
-        android:layout_margin="8dp"/>
+        android:textSize="18sp"
+        android:fontFamily="@font/nunito"
+        android:layout_margin="10dp"/>
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"

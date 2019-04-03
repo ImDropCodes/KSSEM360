@@ -44,7 +44,6 @@ public class AboutDeveloperAdapter extends RecyclerView.Adapter<AboutDeveloperAd
         holder.mName.setText(aboutDeveloperModelClass.getName());
         holder.mYear.setText(aboutDeveloperModelClass.getYear());
         holder.mDepartment.setText(aboutDeveloperModelClass.getDepartment());
-        Picasso.get().load(aboutDeveloperModelClass.getImage()).into(holder.mImage);
 
 
     }
@@ -56,13 +55,11 @@ public class AboutDeveloperAdapter extends RecyclerView.Adapter<AboutDeveloperAd
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        private CircleImageView mImage;
         private TextView mName,mYear,mDepartment;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            mImage = itemView.findViewById(R.id.dev_image);
             mName = itemView.findViewById(R.id.dev_name);
             mYear = itemView.findViewById(R.id.dev_year);
             mDepartment = itemView.findViewById(R.id.dev_department);

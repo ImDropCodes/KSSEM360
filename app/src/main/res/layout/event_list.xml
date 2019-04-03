@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/event_list_image"
-            android:layout_width="120dp"
-            android:layout_height="150dp"
+            android:layout_width="140dp"
+            android:layout_height="170dp"
             android:layout_margin="2dp"
             app:srcCompat="@color/colorAccent"/>
 
@@ -25,14 +25,24 @@
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:gravity="center|top">
+            <Button
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_outline_delete"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/event_delete_btn"
+                android:visibility="gone"
+                android:gravity="bottom" />
 
             <TextView
                 android:id="@+id/event_list_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
-                android:textStyle="bold"
+                android:fontFamily="@font/nunito_bold"
+                android:layout_below="@id/event_delete_btn"
                 android:gravity="left"
+                android:textColor="@color/colorPrimary"
                 android:text="Event Name here"
                 android:textSize="24sp" />
 
@@ -43,6 +53,7 @@
                 android:layout_margin="2dp"
                 android:layout_below="@id/event_list_name"
                 android:gravity="left"
+                android:fontFamily="@font/nunito_semibold"
                 android:text="event Date"
                 android:textSize="18sp" />
 
@@ -52,6 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
                 android:gravity="left"
+                android:fontFamily="@font/nunito"
                 android:layout_below="@id/event_list_date"
                 android:text="Department"
                 android:textSize="14sp" />
@@ -63,18 +75,9 @@
                 android:layout_below="@id/event_list_department"
                 android:layout_margin="2dp"
                 android:gravity="left"
+                android:fontFamily="@font/nunito"
                 android:text="Venue"
                 android:textSize="14sp" />
-
-            <Button
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@drawable/ic_outline_delete"
-                android:layout_alignParentEnd="true"
-                android:id="@+id/event_delete_btn"
-                android:visibility="gone"
-                android:layout_below="@id/event_list_venue"
-                android:gravity="bottom" />
 
         </RelativeLayout>
     </LinearLayout>

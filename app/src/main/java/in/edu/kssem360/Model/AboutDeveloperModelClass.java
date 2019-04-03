@@ -3,16 +3,14 @@ package in.edu.kssem360.Model;
 public class AboutDeveloperModelClass {
 
     private String name, department, year;
-    private int image;
 
     public AboutDeveloperModelClass() {
     }
 
-    public AboutDeveloperModelClass(String name, String department, String year, int image) {
+    public AboutDeveloperModelClass(String name, String department, String year) {
         this.name = name;
         this.department = department;
         this.year = year;
-        this.image = image;
     }
 
     public String getName() {
@@ -39,12 +37,4 @@ public class AboutDeveloperModelClass {
         this.year = year;
     }
 
-
-    public int getImage() {
-        return image;
-    }
-
-    public void setImage(int image) {
-        this.image = image;
-    }
 }

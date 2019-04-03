@@ -38,10 +38,10 @@
                 android:text=""
                 android:layout_centerVertical="true"
                 android:gravity="start|center"
+                android:fontFamily="@font/nunito_semibold"
                 android:layout_toRightOf="@id/feed_profile"
                 android:id="@+id/feed_user_name"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textSize="16sp" />
             <Button
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -68,6 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorAccent"
+            android:fontFamily="@font/nunito_semibold"
             android:layout_margin="16dp"
             android:text="Lorem ipsum dolor sit amet, soluta regione urbanitas vis in, qui elit populo ut. " />
 

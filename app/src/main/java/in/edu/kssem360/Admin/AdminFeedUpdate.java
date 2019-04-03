@@ -125,7 +125,7 @@ public class AdminFeedUpdate extends AppCompatActivity {
             final ProgressDialog imageProgress = new ProgressDialog(AdminFeedUpdate.this);
             imageProgress.setMessage("Please wait...");
             imageProgress.setTitle("Uploading Image");
-            imageProgress.setIcon(R.mipmap.ic_launcher);
+            imageProgress.setIcon(R.mipmap.ic_launcher_logo);
             imageProgress.setCanceledOnTouchOutside(false);
             imageProgress.show();
             uri = data.getData();

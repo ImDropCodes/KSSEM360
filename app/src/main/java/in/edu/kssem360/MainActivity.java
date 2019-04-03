@@ -1,13 +1,15 @@
 package in.edu.kssem360;
 
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private FeedFragment mFeedFragment;
     private FestFragment mFestFragment;
     private AboutFragment mAboutFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +67,27 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.toolbar_logout) {
+            mAuth.signOut();
+            startActivity(new Intent(MainActivity.this,LogIn.class));
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void handleFragments(Fragment fragment) {

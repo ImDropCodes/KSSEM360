@@ -7,16 +7,19 @@
         <item
             android:id="@+id/nav_feed"
             android:icon="@drawable/ic_outline_home_24px"
+            android:fontFamily="@font/nunito"
             android:title="Feed" />
 
         <item
             android:id="@+id/nav_fest"
             android:icon="@drawable/ic_outline_event"
+            android:fontFamily="@font/nunito"
             android:title="Events" />
 
         <item
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_outline_account"
+            android:fontFamily="@font/nunito"
             android:title="About" />
 
     </group>
