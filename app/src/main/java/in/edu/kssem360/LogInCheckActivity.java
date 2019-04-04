@@ -2,20 +2,10 @@ package in.edu.kssem360;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class LogInCheckActivity extends AppCompatActivity {
 
@@ -30,16 +20,16 @@ public class LogInCheckActivity extends AppCompatActivity {
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
-        if (user != null){
+        if (user != null) {
 
-            String uid = user.getUid();
             String name = user.getDisplayName();
-            startActivity(new Intent(LogInCheckActivity.this,MainActivity.class));
+            startActivity(new Intent(LogInCheckActivity.this, MainActivity.class));
             finish();
-            Toast.makeText(LogInCheckActivity.this,"welCome "+name, Toast.LENGTH_SHORT).show();
-        }else {
-            startActivity(new Intent(LogInCheckActivity.this,LogIn.class));
+            Toast.makeText(LogInCheckActivity.this, "welCome " + name, Toast.LENGTH_SHORT).show();
+        } else {
+            startActivity(new Intent(LogInCheckActivity.this, LogIn.class));
             finish();
+            Toast.makeText(LogInCheckActivity.this, "No user logged In", Toast.LENGTH_SHORT).show();
         }
     }
 }

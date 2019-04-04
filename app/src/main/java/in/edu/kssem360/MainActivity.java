@@ -1,19 +1,25 @@
 package in.edu.kssem360;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import java.util.HashMap;
+import java.util.Map;
 import in.edu.kssem360.Fragments.AboutFragment;
 import in.edu.kssem360.Fragments.FeedFragment;
 import in.edu.kssem360.Fragments.FestFragment;
@@ -26,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private FeedFragment mFeedFragment;
     private FestFragment mFestFragment;
     private AboutFragment mAboutFragment;
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mReference;
 
 
     @Override
@@ -37,7 +45,30 @@ public class MainActivity extends AppCompatActivity {
         //fire_base
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
-        
+        mDatabase = FirebaseDatabase.getInstance();
+
+        String uid = user.getUid();
+        String name = user.getDisplayName();
+        Uri image = user.getPhotoUrl();
+
+        mReference = mDatabase.getReference().child("users").child(uid);
+
+        Map maps = new HashMap();
+        maps.put("name", name);
+        maps.put("image", image.toString());
+
+
+        mReference.updateChildren(maps).addOnCompleteListener(new OnCompleteListener() {
+            @Override
+            public void onComplete(@NonNull Task task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(MainActivity.this, "User Data Updated", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "Error while updating user data", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
         mFeedFragment = new FeedFragment();
         mFestFragment = new FestFragment();
         mAboutFragment = new AboutFragment();
@@ -83,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == R.id.toolbar_logout) {
             mAuth.signOut();
-            startActivity(new Intent(MainActivity.this,LogIn.class));
+            startActivity(new Intent(MainActivity.this, LogIn.class));
             finish();
             return true;
         }

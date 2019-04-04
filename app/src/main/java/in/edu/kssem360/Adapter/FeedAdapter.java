@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,20 +29,21 @@ import in.edu.kssem360.R;
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
     private List<FeedModelClass> feedModelClass;
+    private Context context;
     private DatabaseReference mRef;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
-    private Context context;
 
-    public FeedAdapter(List<FeedModelClass> feedModelClass) {
+
+    public FeedAdapter(List<FeedModelClass> feedModelClass, Context context) {
         this.feedModelClass = feedModelClass;
-
+        this.context = context;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_items, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.feed_items, parent, false);
         return new ViewHolder(view);
 
     }
@@ -82,9 +82,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         mRef.child("users").child(current_user_id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.hasChild("status")){
+                if (dataSnapshot.hasChild("status")) {
                     holder.mDelete.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     holder.mDelete.setVisibility(View.GONE);
                 }
             }
@@ -125,7 +125,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView mImage;
-        private TextView mCaption,mUserName;
+        private TextView mCaption, mUserName;
         private CircleImageView mUserImage;
         private Button mDelete;
 

@@ -96,11 +96,10 @@ public class FeedFragment extends Fragment {
                 if (dataSnapshot != null) {
 
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-
                         FeedModelClass model = snapshot.getValue(FeedModelClass.class);
                         modelClasses.add(model);
                     }
-                    adapter = new FeedAdapter(modelClasses);
+                    adapter = new FeedAdapter(modelClasses,getContext());
                     adapter.notifyDataSetChanged();
                     recyclerView.setAdapter(adapter);
 

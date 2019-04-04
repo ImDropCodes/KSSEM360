@@ -22,7 +22,7 @@
         android:layout_height="300dp"
         android:layout_margin="2dp"
         android:layout_below="@id/tv"
-        android:src="@drawable/ic_outline_camera"
+        app:srcCompat="@drawable/ic_outline_camera"
         android:id="@+id/feed_image_view"/>
 
     <com.google.android.material.textfield.TextInputLayout
