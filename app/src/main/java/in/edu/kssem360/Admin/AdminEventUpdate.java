@@ -51,7 +51,7 @@ public class AdminEventUpdate extends AppCompatActivity implements DatePickerDia
     int dayFinal, monthFinal, yearFinal;
     private String format = "";
     private String date_time, order;
-    private TextInputEditText mEventName, mEventType, mReqFee, mVenue, mDuration, mNumParticipate, mCordinatNameStudent, mCordinatNumber, mDescription, mCordinatNameTeacher, mDepartment;
+    private TextInputEditText mRegistrationURL,mEventName, mEventType, mReqFee, mVenue, mDuration, mNumParticipate, mCordinatNameStudent, mCordinatNumber, mDescription, mCordinatNameTeacher, mDepartment;
     private CircleImageView mPoaterImage;
 
     private FirebaseDatabase mDatabase;
@@ -86,6 +86,7 @@ public class AdminEventUpdate extends AppCompatActivity implements DatePickerDia
         mPostEvent = findViewById(R.id.event_post);
         mPoaterImage = findViewById(R.id.poster);
         mDuration = findViewById(R.id.event_duration);
+        mRegistrationURL = findViewById(R.id.event_registration_url);
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
@@ -139,6 +140,7 @@ public class AdminEventUpdate extends AppCompatActivity implements DatePickerDia
         String event_co_number = mCordinatNumber.getEditableText().toString();
         String event_description = mDescription.getEditableText().toString();
         String event_duration = mDuration.getEditableText().toString();
+        String event_reg_url = mRegistrationURL.getEditableText().toString();
 
         if (!TextUtils.isEmpty(event_name)&& !TextUtils.isEmpty(image_url) && !TextUtils.isEmpty(event_type) && !TextUtils.isEmpty(event_reg_fee) && !TextUtils.isEmpty(event_venue) && !TextUtils.isEmpty(event_num_parti) && !TextUtils.isEmpty(event_co_nameStudent) && !TextUtils.isEmpty(event_co_nameTeacher) && !TextUtils.isEmpty(event_department) && !TextUtils.isEmpty(event_co_number) && !TextUtils.isEmpty(event_description) && !TextUtils.isEmpty(event_duration)) {
 
@@ -157,6 +159,7 @@ public class AdminEventUpdate extends AppCompatActivity implements DatePickerDia
             map.put("admin", UID);
             map.put("image",image_url);
             map.put("order", order);
+            map.put("reg_url",event_reg_url);
 
             mRef.child(event_name).updateChildren(map).addOnCompleteListener(new OnCompleteListener() {
                 @Override

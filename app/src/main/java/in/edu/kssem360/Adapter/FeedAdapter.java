@@ -1,14 +1,19 @@
 package in.edu.kssem360.Adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,6 +28,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import in.edu.kssem360.Admin.ImageViewActivity;
 import in.edu.kssem360.Model.FeedModelClass;
 import in.edu.kssem360.R;
 
@@ -67,7 +73,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                 String image_url = dataSnapshot.child("image").getValue().toString();
 
                 holder.mUserName.setText(name);
-                Picasso.get().load(image_url).into(holder.mUserImage);
+                Picasso.get().load(image_url).placeholder(R.drawable.placeholder).into(holder.mUserImage);
 
             }
 
@@ -98,22 +104,65 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         holder.mDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mRef.child("feed").child(modelClass.getCaption()).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        mRef.child("feed").child(modelClass.getCaption()).setValue(null);
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("Are you sure you want to Delete the feed")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
 
-                    }
-                });
+                                mRef.child("feed").child(modelClass.getCaption()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        mRef.child("feed").child(modelClass.getCaption()).setValue(null);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+        });
+
+        mRef.child("feed").child(modelClass.getCaption()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChild("image")){
+                    holder.mImage.setVisibility(View.VISIBLE);
+                    Picasso.get().load(modelClass.getImage()).placeholder(R.drawable.placeholder).into(holder.mImage);
+                }else {
+                    holder.mImage.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+        holder.mCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ImageViewActivity.class);
+                intent.putExtra("image",modelClass.getImage());
+                context.startActivity(intent);
             }
         });
 
         holder.mCaption.setText(modelClass.getCaption());
-        Picasso.get().load(modelClass.getImage()).into(holder.mImage);
 
     }
 
@@ -128,6 +177,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         private TextView mCaption, mUserName;
         private CircleImageView mUserImage;
         private Button mDelete;
+        private CardView mCardView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -137,6 +187,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             mUserImage = itemView.findViewById(R.id.feed_profile);
             mUserName = itemView.findViewById(R.id.feed_user_name);
             mDelete = itemView.findViewById(R.id.feed_delete_btn);
+            mCardView = itemView.findViewById(R.id.main_feed_post);
         }
 
     }

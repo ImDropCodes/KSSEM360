@@ -91,7 +91,7 @@ public class AdminFeedUpdate extends AppCompatActivity {
             public void onClick(View v) {
                 String caption = mEditText.getEditableText().toString();
 
-                if (!TextUtils.isEmpty(caption) && !TextUtils.isEmpty(image_url) && !TextUtils.isEmpty(UID)) {
+                if (!TextUtils.isEmpty(caption) && !TextUtils.isEmpty(UID)) {
 
                     Map map = new HashMap();
                     map.put("caption", caption);

@@ -13,6 +13,7 @@
         android:layout_height="match_parent"
         android:id="@+id/main_frame_layout"
         android:layout_above="@id/nav_view"
+        android:background="@color/colorPrimary"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     </FrameLayout>
@@ -25,9 +26,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/colorPrimary"
-        app:itemIconTint="@color/colorWhite"
-        app:itemTextColor="@color/colorWhite"
-        app:itemRippleColor="@color/colorPrimary"
+        app:itemIconTint="@color/colorAccent"
+        app:itemTextColor="@color/colorAccent"
         app:menu="@menu/activity_main_drawer" />
 
 </RelativeLayout>

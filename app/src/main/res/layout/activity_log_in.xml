@@ -4,35 +4,70 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:id="@+id/log_in_activity"
     android:gravity="center"
+    android:background="@color/colorPrimary"
     tools:context=".LogIn">
 
     <ImageView
         android:id="@+id/sign_img"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        app:srcCompat="@mipmap/ic_launcher_logo" />
+        android:layout_height="150dp"
+        app:srcCompat="@drawable/kssem_round" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Sign in with: "
         android:id="@+id/sig_tv"
-        android:layout_below="@id/sign_img"
         android:textColor="@color/colorWhite"
         android:textSize="18sp"
+        android:layout_below="@id/sign_img"
         android:fontFamily="@font/nunito"
         android:layout_margin="10dp"/>
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
         android:layout_width="match_parent"
-        android:layout_margin="8dp"
-        android:layout_below="@id/sig_tv"
         android:background="@color/colorPrimary"
         android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_below="@id/sig_tv"
+        android:layout_marginBottom="50dp"
         android:foregroundGravity="center"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Developed by"
+        android:gravity="center"
+        android:id="@+id/log_indev_name"
+        android:textColor="@color/colorWhite"
+        android:layout_margin="5dp"
+        android:layout_below="@id/sign_in_button"
+        android:textSize="12sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@id/log_indev_name"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Drop"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Codes"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
 
 </RelativeLayout>

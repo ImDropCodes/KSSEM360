@@ -3,7 +3,8 @@
     package="in.edu.kssem360">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -12,9 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Admin.EventDetailActivity"/>
+        <activity android:name=".Admin.ImageViewActivity"></activity>
+        <activity android:name=".Admin.EventDetailActivity" />
         <activity android:name=".Admin.AdminFeedUpdate" />
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".MainActivity" />
         <activity android:name=".Admin.AdminEventUpdate" />
         <activity android:name=".LogIn" />
         <activity android:name=".LogInCheckActivity">
@@ -28,6 +30,7 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
     </application>
 
 </manifest>

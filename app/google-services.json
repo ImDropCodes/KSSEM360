@@ -1,52 +1,45 @@
 {
   "project_info": {
-    "project_number": "439687365675",
-    "firebase_url": "https://kssem360.firebaseio.com",
-    "project_id": "kssem360",
-    "storage_bucket": "kssem360.appspot.com"
+    "project_number": "116517423510",
+    "firebase_url": "https://kssem360-704bf.firebaseio.com",
+    "project_id": "kssem360-704bf",
+    "storage_bucket": "kssem360-704bf.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:439687365675:android:d0f3e1144d98400c",
+        "mobilesdk_app_id": "1:116517423510:android:d0f3e1144d98400c",
         "android_client_info": {
           "package_name": "in.edu.kssem360"
         }
       },
       "oauth_client": [
         {
-          "client_id": "439687365675-30l3pcnbtgflp201421ncq9j8j43v38p.apps.googleusercontent.com",
+          "client_id": "116517423510-7ji375uukcvh665j9c4c8dhucgk7vc0h.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "in.edu.kssem360",
-            "certificate_hash": "60e7fd8af75f1a858c8e8e3199d49e5f96a8ce82"
+            "certificate_hash": "010a54a8d3b09a85ab63fc7d8469603d184eaa2e"
           }
         },
         {
-          "client_id": "439687365675-513u10mpi231s3fg64ph0t9ibc7n4i0s.apps.googleusercontent.com",
+          "client_id": "116517423510-cd494jbaofe917i7fgvph3s3p9mn87sh.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCBQbHns0eoJGGrFO1_7hw8dlJVQd8xC0c"
+          "current_key": "AIzaSyAXEUZaGey9nCiPPFBlMb2atUm45WtSdds"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "439687365675-513u10mpi231s3fg64ph0t9ibc7n4i0s.apps.googleusercontent.com",
+              "client_id": "116517423510-cd494jbaofe917i7fgvph3s3p9mn87sh.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }

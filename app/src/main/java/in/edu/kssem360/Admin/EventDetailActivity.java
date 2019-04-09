@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,17 +16,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import in.edu.kssem360.R;
 
 public class EventDetailActivity extends AppCompatActivity {
 
-    private String name, image, department, date, venue, type, fee, num_part, teacher_co, student_co, co_ord_number, desc, admin;
+    private String name, image, department, date, venue, type, fee, num_part, teacher_co, student_co, co_ord_number, desc, admin,String ,reg_url;
     private TextView name_tv, department_tv, date_tv, venue_tv, type_tv, fee_tv, num_part_tv, teacher_co_tv, student_co_tv, co_ord_number_tv, desc_tv, admin_tv;
     private ImageView mImage;
+    private Button mRegBtn;
     private FloatingActionButton mFAB;
     private static final int REQUEST_CALL = 2;
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +72,7 @@ public class EventDetailActivity extends AppCompatActivity {
         desc_tv = findViewById(R.id.event_detail_activity_event_description);
         mImage = findViewById(R.id.event_detail_activity_image_view);
         mFAB = findViewById(R.id.fab_event_detail_call);
+        mRegBtn = findViewById(R.id.event_detail_activity_register_btn);
 
 
         name_tv.setText("Event Name: " + name);
@@ -70,14 +80,54 @@ public class EventDetailActivity extends AppCompatActivity {
         date_tv.setText("Date: " + date);
         venue_tv.setText("Venue: " + venue);
         type_tv.setText("Type: " + type);
-        fee_tv.setText("Fee: " + fee);
-        num_part_tv.setText("Number of Participate: " + num_part);
+        fee_tv.setText("Fee: " + fee+ "Rs ");
+        num_part_tv.setText("Number of Participants: " + num_part);
         teacher_co_tv.setText("Teacher Co-ordinator: " + teacher_co);
         student_co_tv.setText("Student Co-ordinator: " + student_co);
-        co_ord_number_tv.setText("Contact-number: " + co_ord_number);
+        co_ord_number_tv.setText("Contact number: " + co_ord_number);
         desc_tv.setText("Description and Rules: \n\n" + desc);
 
-        Picasso.get().load(image).into(mImage);
+        Picasso.get().load(image).placeholder(R.drawable.placeholder).into(mImage);
+
+        mImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EventDetailActivity.this,ImageViewActivity.class);
+                intent.putExtra("image",image);
+                startActivity(intent);
+            }
+        });
+
+        mDatabase = FirebaseDatabase.getInstance();
+        mRef = mDatabase.getReference().child("event").child(name);
+        mRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChild("reg_url")){
+
+                    reg_url = dataSnapshot.child("reg_url").getValue().toString();
+                    mRegBtn.setVisibility(View.VISIBLE);
+                }else {
+                    mRegBtn.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        mRegBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Uri uri = Uri.parse(reg_url); // missing 'http://' will cause crashed
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }
+        });
+
 
         mFAB.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">KSSEM 360</string>
+    <string name="web_client_id" translatable="false">439687365675-30l3pcnbtgflp201421ncq9j8j43v38p.apps.googleusercontent.com</string>
 </resources>

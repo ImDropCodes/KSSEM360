@@ -1,10 +1,12 @@
 package in.edu.kssem360.Fragments;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,8 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import in.edu.kssem360.Adapter.AboutDeveloperAdapter;
-import in.edu.kssem360.Model.AboutDeveloperModelClass;
 import in.edu.kssem360.R;
 
 public class AboutFragment extends Fragment {
@@ -31,13 +31,7 @@ public class AboutFragment extends Fragment {
     private FirebaseUser mUser;
     private TextView mUserTV;
     private CircleImageView mUserImage;
-    private RecyclerView mRecyclerView;
-    private AboutDeveloperAdapter adapter;
-    private List<AboutDeveloperModelClass> modelClasses;
-
-    private String names[] = {"Sagar DB (DropCodes)","Revanth Chowdary M","Vishal M","Arvind","Mohammed Yunus","Shashidhara N","Charan TN"};
-    private String department[] = {"EEE","CSE","CSE","ECE","ECE","CSE","EEE"};
-    private String year[] = {"3rd year","3rd year","4th year","3rd year","4th year","3rd year","3rd year",};
+    private Button mPrivacyPlicy;
 
     @Nullable
     @Override
@@ -51,20 +45,8 @@ public class AboutFragment extends Fragment {
 
         mUserTV = view.findViewById(R.id.about_user_name);
         mUserImage = view.findViewById(R.id.about_user_image);
+        mPrivacyPlicy = view.findViewById(R.id.about_privacy_policy_btn);
 
-        mRecyclerView = view.findViewById(R.id.about_recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        modelClasses = new ArrayList<>();
-
-        for (int i = 0; i < names.length; i++) {
-            AboutDeveloperModelClass settingModel = new AboutDeveloperModelClass(names[i], department[i],year[i]);
-            modelClasses.add(settingModel);
-
-            adapter = new AboutDeveloperAdapter(modelClasses, getContext());
-            mRecyclerView.setAdapter(adapter);
-        }
 
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
@@ -73,7 +55,16 @@ public class AboutFragment extends Fragment {
         Uri profile_image = mUser.getPhotoUrl();
 
         mUserTV.setText("Hey, "+name);
-        Picasso.get().load(profile_image).into(mUserImage);
+        Picasso.get().load(profile_image).placeholder(R.drawable.placeholder).into(mUserImage);
+
+        mPrivacyPlicy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse("https://sites.google.com/view/kssem360/home");
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }
+        });
     }
 
 }

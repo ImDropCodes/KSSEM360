@@ -1,6 +1,7 @@
 package in.edu.kssem360.Adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -58,10 +60,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
         holder.mName.setText(eventModelClass.getName());
         holder.mDate.setText("Date: " + eventModelClass.getDate());
-        holder.mDepartment.setText("Department: " + eventModelClass.getDepartment());
-        holder.mVenue.setText("Venue: " + eventModelClass.getVenue());
+        holder.mDepartment.setText("By: " + eventModelClass.getDepartment());
 
-        Picasso.get().load(eventModelClass.getImage()).fit().into(holder.mImage);
+        Picasso.get().load(eventModelClass.getImage()).placeholder(R.drawable.placeholder).into(holder.mImage);
 
         holder.mCard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,7 +107,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         holder.mDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mRef.child("event").child(eventModelClass.getName()).addListenerForSingleValueEvent(new ValueEventListener() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("Are you sure you want delete the Event ")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                mRef.child("event").child(eventModelClass.getName()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         mRef.child("event").child(eventModelClass.getName()).setValue(null);
@@ -117,6 +123,16 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
                     }
                 });
+
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
             }
         });
 
@@ -131,7 +147,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView mImage;
-        private TextView mName, mDate, mDepartment, mVenue;
+        private TextView mName, mDate, mDepartment;
         private CardView mCard;
         private Button mDelete;
 
@@ -141,7 +157,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             mImage = itemView.findViewById(R.id.event_list_image);
             mName = itemView.findViewById(R.id.event_list_name);
             mDate = itemView.findViewById(R.id.event_list_date);
-            mVenue = itemView.findViewById(R.id.event_list_venue);
             mDepartment = itemView.findViewById(R.id.event_list_department);
             mCard = itemView.findViewById(R.id.event_card_view);
             mDelete = itemView.findViewById(R.id.event_delete_btn);
