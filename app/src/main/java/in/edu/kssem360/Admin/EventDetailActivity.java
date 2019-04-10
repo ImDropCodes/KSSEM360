@@ -11,10 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,11 +19,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import in.edu.kssem360.R;
 
 public class EventDetailActivity extends AppCompatActivity {
 
-    private String name, image, department, date, venue, type, fee, num_part, teacher_co, student_co, co_ord_number, desc, admin,String ,reg_url;
+    private String name, image, department, date, venue, type, fee, num_part, teacher_co, student_co, co_ord_number, desc, admin, String, reg_url;
     private TextView name_tv, department_tv, date_tv, venue_tv, type_tv, fee_tv, num_part_tv, teacher_co_tv, student_co_tv, co_ord_number_tv, desc_tv, admin_tv;
     private ImageView mImage;
     private Button mRegBtn;
@@ -80,7 +79,7 @@ public class EventDetailActivity extends AppCompatActivity {
         date_tv.setText("Date: " + date);
         venue_tv.setText("Venue: " + venue);
         type_tv.setText("Type: " + type);
-        fee_tv.setText("Fee: " + fee+ "Rs ");
+        fee_tv.setText("Fee: " + "Rs" + fee);
         num_part_tv.setText("Number of Participants: " + num_part);
         teacher_co_tv.setText("Teacher Co-ordinator: " + teacher_co);
         student_co_tv.setText("Student Co-ordinator: " + student_co);
@@ -92,23 +91,25 @@ public class EventDetailActivity extends AppCompatActivity {
         mImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(EventDetailActivity.this,ImageViewActivity.class);
-                intent.putExtra("image",image);
+                Intent intent = new Intent(EventDetailActivity.this, ImageViewActivity.class);
+                intent.putExtra("image", image);
                 startActivity(intent);
             }
         });
 
         mDatabase = FirebaseDatabase.getInstance();
         mRef = mDatabase.getReference().child("event").child(name);
+        mRef.keepSynced(true);
         mRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.hasChild("reg_url")){
-
+                if (dataSnapshot.hasChild("reg_url")) {
                     reg_url = dataSnapshot.child("reg_url").getValue().toString();
-                    mRegBtn.setVisibility(View.VISIBLE);
-                }else {
-                    mRegBtn.setVisibility(View.INVISIBLE);
+                    if (reg_url.equals("")){
+                        mRegBtn.setVisibility(View.INVISIBLE);
+                    }else {
+                        mRegBtn.setVisibility(View.VISIBLE);
+                    }
                 }
             }
 
@@ -140,10 +141,10 @@ public class EventDetailActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_CALL){
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        if (requestCode == REQUEST_CALL) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 makePhoneCall();
-            }else {
+            } else {
                 Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
             }
         }
@@ -152,11 +153,11 @@ public class EventDetailActivity extends AppCompatActivity {
     private void makePhoneCall() {
         if (ActivityCompat.checkSelfPermission(EventDetailActivity.this,
                 Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(EventDetailActivity.this,new String[] {Manifest.permission.CALL_PHONE},REQUEST_CALL);
+            ActivityCompat.requestPermissions(EventDetailActivity.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
 
-        }else {
-            String dial = "tel:"+co_ord_number;
-            startActivity(new Intent(Intent.ACTION_CALL,Uri.parse(dial)));
+        } else {
+            String dial = "tel:" + co_ord_number;
+            startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
         }
     }
 }

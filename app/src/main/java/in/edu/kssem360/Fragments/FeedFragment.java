@@ -39,6 +39,7 @@ public class FeedFragment extends Fragment {
     private FloatingActionButton fab;
     private FirebaseAuth mAuth;
     private FirebaseUser user;
+    private FirebaseDatabase mDatabase;
     private String uid;
 
     @Nullable
@@ -68,10 +69,12 @@ public class FeedFragment extends Fragment {
         });
 
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance();
         user = mAuth.getCurrentUser();
         uid = user.getUid();
 
-        mReference = FirebaseDatabase.getInstance().getReference();
+        mReference = mDatabase.getReference();
+        mReference.keepSynced(true);
         mReference.child("users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

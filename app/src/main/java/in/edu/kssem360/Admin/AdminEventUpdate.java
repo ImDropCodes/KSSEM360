@@ -159,7 +159,12 @@ public class AdminEventUpdate extends AppCompatActivity implements DatePickerDia
             map.put("admin", UID);
             map.put("image",image_url);
             map.put("order", order);
-            map.put("reg_url",event_reg_url);
+
+            if (!TextUtils.isEmpty(event_reg_url)){
+                map.put("reg_url",event_reg_url);
+            }else {
+                map.put("reg_url",null);
+            }
 
             mRef.child(event_name).updateChildren(map).addOnCompleteListener(new OnCompleteListener() {
                 @Override

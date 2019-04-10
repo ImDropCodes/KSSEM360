@@ -71,6 +71,7 @@ public class FestFragment extends Fragment {
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
 
         mReference = FirebaseDatabase.getInstance().getReference();
+        mReference.keepSynced(true);
 
         modelClasses = new ArrayList<>();
 

@@ -7,8 +7,8 @@ android {
         applicationId "in.edu.kssem360"
         minSdkVersion 22
         targetSdkVersion 28
-        versionCode 8
-        versionName "1.6"
+        versionCode 9
+        versionName "1.7"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
